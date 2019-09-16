@@ -1,0 +1,61 @@
+.input-filter-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.input-filter {
+	display: flex;
+	flex-direction: row;
+
+	width: 100%;
+
+	border: 1px solid #9e9e9e;
+
+	align-items: flex-start;
+	/* overflow: hidden; */
+	white-space: nowrap;
+}
+
+.inner-input {
+  display: flex;
+  flex: 1 1 auto;
+
+  min-height: 2rem;
+  padding: 2px 0;
+
+  align-items: center;
+  flex-wrap: wrap;
+
+  margin-right: 3rem;
+}
+
+.inner-input input {
+  display: flex;
+  flex: 1;
+
+  border: none;
+  background: none;
+
+  margin-right: 90px;
+}
+
+.inner-input input:focus {
+  outline: none;
+}
+
+.filter-icon,
+.plus-icon,
+.close-icon {
+	flex: 0 0 20px;
+
+	padding: 7px;
+
+	color: #9e9e9e;
+}
+
+/* remove stupid x that shows up in IE */
+.input-filter input::-ms-clear {
+	display: none;
+}
