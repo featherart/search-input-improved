@@ -101,10 +101,11 @@
   background-color: #fff;
   position: absolute;
   z-index: 200;
-  padding: 5px 0;
+  padding: 2px 7px;
   box-shadow: 1px 2px 3px 0 #9e9e9e;
   -webkit-box-shadow: 1px 2px 3px 0 #9e9e9e;
   font-size: .9rem;
+  transform: translate(4px, -14px);
 }
 
 .test {

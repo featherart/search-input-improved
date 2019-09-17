@@ -54,6 +54,7 @@ export const SearchInput = ({ placeholder }) => {
   // opens the inner list of values
   // index is used to make sure list is opened for the correct tag
   const handleTagList = (tag, i) => {
+    addToTags(tag)
     const val = labels.find(label => label.name === tag)
     setListValues(val && val.value)
     toggleListValues(!listValuesOpen)
@@ -74,7 +75,11 @@ export const SearchInput = ({ placeholder }) => {
         )}
         {labelsOpen &&
           ReactDOM.createPortal(
-            <ListItemsComponent labels={labels} addToTags={addToTags} />,
+            <ListItemsComponent
+              labels={labels}
+              addToTags={addToTags}
+              handleTagList={handleTagList}
+            />,
             document.getElementById('list-values')
           )}
         <div className='inner-input'>
@@ -82,23 +87,13 @@ export const SearchInput = ({ placeholder }) => {
             <div key={i}>
               <Tag
                 id={i}
-                onClick={() => handleTagList(tag, i)}
-                onMouseEnter={() => handleTagList(tag, i)}
                 close={() => removeFromTags(tag, i)}
+                listValues={listValues}
+                handleClick={handleListClick}
+                tag={tag}
               >
                 {tag}
               </Tag>
-              {listIndexOpen === i &&
-                document.getElementById(i) &&
-                ReactDOM.createPortal(
-                  <ListValuesComponent
-                    handleClick={handleListClick}
-                    tag={tag}
-                    index={i}
-                    listValues={listValues}
-                  />,
-                  document.getElementById(i)
-                )}
             </div>
           ))}
           <input
@@ -118,11 +113,11 @@ export const SearchInput = ({ placeholder }) => {
   )
 }
 
-const ListItemsComponent = ({ labels, addToTags }) => {
+const ListItemsComponent = ({ labels, addToTags, handleTagList }) => {
   return (
     <div className='list-items-portal'>
       {labels.map((label, i) => (
-        <span key={i} onClick={() => addToTags(label.name)}>
+        <span key={i} onClick={() => handleTagList(label.name, i)}>
           <FiSmile className='label-icon' />
           {label.name}
         </span>
@@ -131,20 +126,3 @@ const ListItemsComponent = ({ labels, addToTags }) => {
   )
 }
 
-const ListValuesComponent = ({ listValues, handleClick, tag, index }) => {
-  return (
-    <div className='inner-list-values'>
-      {Array.isArray(listValues) ? (
-        listValues.map((li, j) => (
-          <div onClick={() => handleClick(li, tag, index)} key={j}>
-            {li}
-          </div>
-        ))
-      ) : (
-        <div onClick={() => handleClick(listValues, tag, index)}>
-          {listValues}
-        </div>
-      )}
-    </div>
-  )
-}
