@@ -7,10 +7,15 @@ import './search-input.css'
 
 export const SearchInput = ({ placeholder }) => {
   const [ value, setValue ] = useState('')
+  const [ listValues, setListValues ] = useState([])
   const [ labelsOpen, toggleLabels ] = useState(false)
   const [ listValuesOpen, toggleListValues ] = useState(false)
   const [ tags, setTags ] = useState([])
   const [ addDisabled, toggleDisabled ] = useState(false)
+
+  // this is initialized with a null string but it will be set to the
+  // index value of the tag with a list that is currently open
+  const [ listIndexOpen, setListIndexOpen ] = useState('')
 
   const innerPlaceholder = value || placeholder
 
@@ -27,6 +32,29 @@ export const SearchInput = ({ placeholder }) => {
     if (!tags.includes(label)) setTags([ ...tags, label ])
     toggleLabels(false)
     toggleDisabled(true)
+  }
+
+  const handleListClick = (listItem, tag, index) => {
+    tags.forEach((item, i) => {
+      if (item === tag) {
+        removeFromTags(item, i)
+        const before = tags.slice(0, i)
+        const after = tags.slice(i, tags.length)
+        if (!tags.includes(`${tag} : ${listItem}`))
+          setTags([ ...before, `${tag} : ${listItem}`, ...after ])
+        //setSearchValues([ ...before, `${tag} : ${listItem}`, ...after ])
+      }
+    })
+    setListIndexOpen('')
+  }
+
+  // opens the inner list of values
+  // index is used to make sure list is opened for the correct tag
+  const handleTagList = (tag, i) => {
+    const val = labels.find(label => label.name === tag)
+    setListValues(val && val.value)
+    toggleListValues(!listValuesOpen)
+    return listIndexOpen === i ? setListIndexOpen('') : setListIndexOpen(i)
   }
 
   return (
@@ -52,15 +80,15 @@ export const SearchInput = ({ placeholder }) => {
               <Tag
                 id={i}
                 key={i}
-                onClick={() => toggleListValues(!listValuesOpen)}
+                onClick={() => handleTagList(tag, i)}
                 close={() => removeFromTags(tag, i)}
               >
                 {tag}
               </Tag>
-              {listValuesOpen &&
+              {listIndexOpen === i &&
                 document.getElementById(i) &&
                 ReactDOM.createPortal(
-                  <div className='test'>hi</div>,
+                  <ListValuesComponent handleClick={handleListClick} tag={tag} index={i} listValues={listValues} />,
                   document.getElementById(i)
               )}
             </>
