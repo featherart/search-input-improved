@@ -23,7 +23,7 @@ export const Tag = ({
             handleClick={handleClick}
             tag={tag}
             index={id}
-            onClick={() => toggleOpen(!open)}
+            toggleOpen={toggleOpen}
           />
         </span>
       }
@@ -32,9 +32,9 @@ export const Tag = ({
   )
 }
 
-const ListValuesComponent = ({ listValues, handleClick, tag, index }) => {
+const ListValuesComponent = ({ listValues, handleClick, tag, index, toggleOpen }) => {
   return (
-    <div className='inner-list-values'>
+    <div className='inner-list-values' onClick={() => toggleOpen(false)}>
       {Array.isArray(listValues) ? (
         listValues.map((li, j) => (
           <div onClick={() => handleClick(li, tag, index)} key={j}>
