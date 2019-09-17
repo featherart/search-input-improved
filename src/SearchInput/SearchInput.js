@@ -38,7 +38,7 @@ export const SearchInput = ({ placeholder }) => {
     toggleDisabled(true)
   }
 
-  const handleListClick = (listItem, tag, index) => {
+  const handleListClick = (listItem, tag, index, toggleOpen) => {
     tags.forEach((item, i) => {
       if (item === tag) {
         removeFromTags(item, i)
@@ -48,7 +48,8 @@ export const SearchInput = ({ placeholder }) => {
           setTags([ ...before, `${tag} : ${listItem}`, ...after ])
       }
     })
-    setListIndexOpen('')
+    //setListIndexOpen('')
+    toggleOpen(false)
   }
 
   // opens the inner list of values

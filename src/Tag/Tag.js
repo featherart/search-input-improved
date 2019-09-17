@@ -34,18 +34,33 @@ export const Tag = ({
 
 const ListValuesComponent = ({ listValues, handleClick, tag, index, toggleOpen }) => {
   return (
-    <div className='inner-list-values' onClick={() => toggleOpen(false)}>
+    <div className='inner-list-values'>
       {Array.isArray(listValues) ? (
-        listValues.map((li, j) => (
-          <div onClick={() => handleClick(li, tag, index)} key={j}>
+        <div>
+        {listValues.map((li, j) => (
+          <div onClick={() => handleClick(li, tag, index, toggleOpen)} key={j}>
             {li}
           </div>
-        ))
+        ))}
+        <ListInputComponent />
+        </div>
       ) : (
-        <div onClick={() => handleClick(listValues, tag, index)}>
-          {listValues}
+        <div>
+          <div onClick={() => handleClick(listValues, tag, index, toggleOpen)}>
+            {listValues}
+          </div>
+          <ListInputComponent />
         </div>
       )}
+    </div>
+  )
+}
+
+const ListInputComponent = () => {
+  return (
+    <div className='list-input-component'>
+      <input type='text' className='list-value-input' onChange={() => console.log('hi')} />
+      <button type='submit'>enter</button>
     </div>
   )
 }
