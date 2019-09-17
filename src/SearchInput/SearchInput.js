@@ -19,7 +19,11 @@ export const SearchInput = ({ placeholder }) => {
 
   const innerPlaceholder = value || placeholder
 
-  const clearAll = () => setValue('')
+  const clearAll = () => {
+    setValue('')
+    setTags([])
+    setListIndexOpen('')
+  }
 
   // removes tag from input when x clicked
   const removeFromTags = (tag, i) => {
@@ -42,7 +46,6 @@ export const SearchInput = ({ placeholder }) => {
         const after = tags.slice(i, tags.length)
         if (!tags.includes(`${tag} : ${listItem}`))
           setTags([ ...before, `${tag} : ${listItem}`, ...after ])
-        //setSearchValues([ ...before, `${tag} : ${listItem}`, ...after ])
       }
     })
     setListIndexOpen('')
@@ -76,11 +79,11 @@ export const SearchInput = ({ placeholder }) => {
           )}
         <div className='inner-input'>
           {tags.map((tag, i) => (
-            <>
+            <div key={i}>
               <Tag
                 id={i}
-                key={i}
                 onClick={() => handleTagList(tag, i)}
+                onMouseEnter={() => handleTagList(tag, i)}
                 close={() => removeFromTags(tag, i)}
               >
                 {tag}
@@ -88,10 +91,15 @@ export const SearchInput = ({ placeholder }) => {
               {listIndexOpen === i &&
                 document.getElementById(i) &&
                 ReactDOM.createPortal(
-                  <ListValuesComponent handleClick={handleListClick} tag={tag} index={i} listValues={listValues} />,
+                  <ListValuesComponent
+                    handleClick={handleListClick}
+                    tag={tag}
+                    index={i}
+                    listValues={listValues}
+                  />,
                   document.getElementById(i)
-              )}
-            </>
+                )}
+            </div>
           ))}
           <input
             value={value}
