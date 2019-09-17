@@ -1,15 +1,18 @@
 body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
   margin: 0;
-  font-family: "Helvetica Neue",
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 100%;
 }
 
 header {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  letter-spacing: .5rem;
+  word-spacing: .3rem;
   font-size: 2rem;
   background-color: #333;
+  text-shadow: 4px 4px 5px #e0e0e0;
   color: #fff;
   display: flex;
   flex-direction: column;
