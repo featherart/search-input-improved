@@ -117,7 +117,15 @@ input.list-value-input:focus {
   outline: 1px solid #008471;
 }
 
-.list-input-component {
-  display: flex;
-  flex: 1 1 auto;
+.list-input-component input {
+  background-color: white;
+  border: 1px solid #008471;
+  color: #9e9e9e;
+  height: 20px;
+  margin-left: 6px;
+  width: 130px;
+}
+
+.test {
+  max-width: 200px;
 }

@@ -48,7 +48,7 @@ export const SearchInput = ({ placeholder }) => {
           setTags([ ...before, `${tag} : ${listItem}`, ...after ])
       }
     })
-    //setListIndexOpen('')
+    setListIndexOpen('')
     toggleOpen(false)
   }
 
@@ -85,11 +85,13 @@ export const SearchInput = ({ placeholder }) => {
           )}
         <div className='inner-input'>
           {tags.map((tag, i) => (
-            <div key={i}>
+            <div key={i} className='test'>
               <Tag
                 id={i}
                 close={() => removeFromTags(tag, i)}
                 listValues={listValues}
+                setListValues={setListValues}
+                handleListClick={handleListClick}
                 handleClick={handleListClick}
                 tag={tag}
               >
@@ -126,4 +128,3 @@ const ListItemsComponent = ({ labels, addToTags, handleTagList }) => {
     </div>
   )
 }
-
