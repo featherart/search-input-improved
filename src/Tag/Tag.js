@@ -10,11 +10,16 @@ export const Tag = ({
   listValues,
   setListValues,
   handleClick,
-  handleListClick,
+  tags,
   tag,
+  isFirst,
   listIndex
 }) => {
-  const [ open, toggleOpen ] = useState(true)
+  const [ open, toggleOpen ] = useState(isFirst)
+
+  const shouldOpen = isFirst && !open && !tag.includes(':')
+  if (shouldOpen) toggleOpen(true)
+
   return (
     <span className='ui tag' onClick={onClick}>
       {children}
@@ -24,7 +29,6 @@ export const Tag = ({
             listValues={listValues}
             setListValues={setListValues}
             handleClick={handleClick}
-            handleListClick={handleListClick}
             tag={tag}
             index={id}
             toggleOpen={toggleOpen}
@@ -66,7 +70,7 @@ const ListValuesComponent = ({
             setListValues={setListValues}
             toggleOpen={toggleOpen}
             handleClick={handleClick}
-            index={index}
+            index={0}
             tag={tag}
           />
         </div>
@@ -86,7 +90,7 @@ const ListInputComponent = ({
   const handleSubmit = e => {
     e.preventDefault()
     setListValues(value)
-    handleClick(value, tag, index, toggleOpen)
+    handleClick(value, tag, 0, toggleOpen)
   }
   return (
     <div className='list-input-component'>
@@ -94,7 +98,7 @@ const ListInputComponent = ({
         <input
           type='text'
           className='list-value-input'
-          autofocus={true}
+          autoFocus
           value={value}
           onChange={e => setValue(e.target.value)}
         />

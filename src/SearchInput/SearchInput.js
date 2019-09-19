@@ -13,16 +13,12 @@ export const SearchInput = ({ placeholder }) => {
   const [ tags, setTags ] = useState([])
   const [ addDisabled, toggleDisabled ] = useState(false)
 
-  // this is initialized with a null string but it will be set to the
-  // index value of the tag with a list that is currently open
-  const [ listIndexOpen, setListIndexOpen ] = useState('')
-
   const innerPlaceholder = value || placeholder
 
   const clearAll = () => {
     setValue('')
     setTags([])
-    setListIndexOpen('')
+    toggleDisabled(false)
   }
 
   // removes tag from input when x clicked
@@ -33,7 +29,7 @@ export const SearchInput = ({ placeholder }) => {
   }
 
   const addToTags = label => {
-    if (!tags.includes(label)) setTags([ ...tags, label ])
+    if (!tags.includes(label)) setTags([ label, ...tags ])
     toggleLabels(false)
     toggleDisabled(true)
   }
@@ -42,24 +38,21 @@ export const SearchInput = ({ placeholder }) => {
     tags.forEach((item, i) => {
       if (item === tag) {
         removeFromTags(item, i)
-        const before = tags.slice(0, i)
-        const after = tags.slice(i, tags.length)
-        if (!tags.includes(`${tag} : ${listItem}`))
-          setTags([ ...before, `${tag} : ${listItem}`, ...after ])
+        if (!tags.includes(`${tag} : ${listItem}`)) {
+          setTags([ `${tag} : ${listItem}`, ...tags ])
+        }
       }
     })
-    setListIndexOpen('')
     toggleOpen(false)
   }
 
   // opens the inner list of values
   // index is used to make sure list is opened for the correct tag
-  const handleTagList = (tag, i) => {
+  const handleTagList = (tag) => {
     addToTags(tag)
     const val = labels.find(label => label.name === tag)
     setListValues(val && val.value)
     toggleListValues(!listValuesOpen)
-    return listIndexOpen === i ? setListIndexOpen('') : setListIndexOpen(i)
   }
 
   return (
@@ -91,8 +84,9 @@ export const SearchInput = ({ placeholder }) => {
                 close={() => removeFromTags(tag, i)}
                 listValues={listValues}
                 setListValues={setListValues}
-                handleListClick={handleListClick}
                 handleClick={handleListClick}
+                isFirst={i === 0}
+                tags={tags}
                 tag={tag}
               >
                 {tag}
@@ -116,11 +110,11 @@ export const SearchInput = ({ placeholder }) => {
   )
 }
 
-const ListItemsComponent = ({ labels, addToTags, handleTagList }) => {
+const ListItemsComponent = ({ labels, handleTagList }) => {
   return (
     <div className='list-items-portal'>
       {labels.map((label, i) => (
-        <span key={i} onClick={() => handleTagList(label.name, i)}>
+        <span key={i} onClick={() => handleTagList(label.name)}>
           <FiSmile className='label-icon' />
           {label.name}
         </span>
