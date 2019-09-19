@@ -108,24 +108,28 @@
   transform: translate(4px, -14px);
 }
 
-input.list-value-input {
+/* input.list-value-input {
   outline: 1px solid #9e9e9e;
   border: 1px solid #9e9e9e;
 }
 
 input.list-value-input:focus {
   outline: 1px solid #008471;
-}
+} */
 
 .list-input-component input {
-  background-color: white;
-  border: 1px solid #008471;
+  background-color: transparent;
+  border-bottom: 1px solid #80C2B8;
   color: #9e9e9e;
   height: 20px;
   margin-left: 6px;
-  width: 130px;
+  width: 100px;
 }
 
-.test {
-  max-width: 200px;
+.list-input-component input:focus {
+  border-bottom: 1px solid #008471;
+}
+
+.tag-size-container {
+  max-width: 170px;
 }

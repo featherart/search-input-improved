@@ -78,7 +78,7 @@ export const SearchInput = ({ placeholder }) => {
           )}
         <div className='inner-input'>
           {tags.map((tag, i) => (
-            <div key={i} className='test'>
+            <div key={i} className='tag-size-container'>
               <Tag
                 id={i}
                 close={() => removeFromTags(tag, i)}
