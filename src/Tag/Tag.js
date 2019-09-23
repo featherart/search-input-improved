@@ -15,7 +15,7 @@ export const Tag = ({
   isFirst,
   listIndex
 }) => {
-  const [ open, toggleOpen ] = useState(isFirst)
+  const [ open, toggleOpen ] = useState(false)
 
   const shouldOpen = isFirst && !open && !tag.includes(':')
   if (shouldOpen) toggleOpen(true)

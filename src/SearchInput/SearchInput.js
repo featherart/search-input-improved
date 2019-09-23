@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { Tag } from '../Tag'
 import { FiPlusSquare, FiX, FiFilter, FiSmile } from 'react-icons/fi'
 import { labels } from '../labels'
+import { useLocalStorage } from '../useLocalStorage'
 import './search-input.css'
 
 export const SearchInput = ({ placeholder }) => {
@@ -10,10 +11,16 @@ export const SearchInput = ({ placeholder }) => {
   const [ listValues, setListValues ] = useState([])
   const [ labelsOpen, toggleLabels ] = useState(false)
   const [ listValuesOpen, toggleListValues ] = useState(false)
-  const [ tags, setTags ] = useState([])
+
   const [ addDisabled, toggleDisabled ] = useState(false)
 
   const innerPlaceholder = value || placeholder
+
+  // values get set in local storage in an array
+  const [ searchValues, setSearchValues ] = useLocalStorage(
+    'ngc::searchvalues'
+  )
+  const [ tags, setTags ] = useState([...searchValues])
 
   const clearAll = () => {
     setValue('')
@@ -26,12 +33,14 @@ export const SearchInput = ({ placeholder }) => {
     toggleDisabled(false)
     tags.splice(i, 1)
     setTags([ ...tags ])
+    setSearchValues([ ...tags ])
   }
 
   const addToTags = label => {
     if (!tags.includes(label)) setTags([ label, ...tags ])
     toggleLabels(false)
     toggleDisabled(true)
+    setSearchValues([ label, ...tags ])
   }
 
   const handleListClick = (listItem, tag, index, toggleOpen) => {
@@ -40,6 +49,7 @@ export const SearchInput = ({ placeholder }) => {
         removeFromTags(item, i)
         if (!tags.includes(`${tag} : ${listItem}`)) {
           setTags([ `${tag} : ${listItem}`, ...tags ])
+          setSearchValues([ `${tag} : ${listItem}`, ...tags ])
         }
       }
     })
